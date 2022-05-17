@@ -1,6 +1,15 @@
 window.addEventListener("load", ()=>{
-    pullMainCOP();
+    const reloadBtn = document.querySelector('.reload-btn')
+    reloadBtn.addEventListener('click', pull)
+    pull();
 });
+
+
+async function pull (){
+    document.body.classList.add('loading')
+    await pullMainCOP();
+    document.body.classList.remove('loading')
+}
 
 async function pullMainCOP (){
 
@@ -14,7 +23,4 @@ async function pullMainCOP (){
     
     price.innerHTML = universalCOP.toFixed(2);
 };
-
-
-
 

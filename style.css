@@ -7,6 +7,10 @@ body {
     margin: 0 auto;
 }
 
+body.loading {
+    pointer-events: none;
+    filter: grayscale(100%);
+}
 
 /* Navigation Elements */
 

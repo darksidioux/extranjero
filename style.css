@@ -104,15 +104,19 @@ header#above-the-fold span{
 
 /* Footer */
 
-footer{
+.footer-top {
     margin: 20px 0;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-footer p {
+.footer-top p {
     font-size: 16px;
     font-style: normal;
     color: white;
+}
+
+.footer-bottom{
+    text-align: center;
 }

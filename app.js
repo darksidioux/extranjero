@@ -5,8 +5,10 @@ window.addEventListener("load", ()=>{
 });
 
 
-function pull (){
-    pullMainCOP();
+async function pull (){
+    document.body.classList.add('loading')
+    await pullMainCOP();
+    document.body.classList.remove('loading')
 }
 
 async function pullMainCOP (){

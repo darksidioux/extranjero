@@ -1,3 +1,13 @@
+
+const sources = [
+    {
+        className: 'global',
+        url : 'https://v6.exchangerate-api.com/v6/a138cb23d3d427fff2d4bdad/latest/USD',
+        getJsonRate : (json) => (json.conversion_rates.COP)
+    }
+]
+
+
 window.addEventListener("load", ()=>{
     const reloadBtn = document.querySelector('.reload-btn')
     reloadBtn.addEventListener('click', pull)
@@ -7,22 +17,29 @@ window.addEventListener("load", ()=>{
 
 async function pull (){
     document.body.classList.add('loading')
-    await pullMainCOP();
-    // await pullWise();
+
+    // for (let i = 0; i < sources.length; i++){
+    //     pullCOP(sources[i]);
+    // }
+
+    sources.forEach(source => pullCOP(source))
+
     document.body.classList.remove('loading')
 }
 
-async function pullMainCOP (){
+async function pullCOP (options){
 
-    const price = document.querySelector('.current-currency-price')
+    const price = document.querySelector(`.current-${options.className}-cop-price`)
     price.innerHTML = 'loading';
 
     // Grab Data From API
-    const universalCOP = await fetch('https://v6.exchangerate-api.com/v6/a138cb23d3d427fff2d4bdad/latest/USD')
+    const rate = await fetch(options.url)
         .then((response) => response.json())
-        .then ((json) => (json.conversion_rates.COP));
+        .then ((json) => options.getJsonRate(json));
     
-    price.innerHTML = universalCOP.toFixed(2);
+    price.innerHTML = rate.toFixed(2);
+
+    console.log(price, rate);
 };
 
 

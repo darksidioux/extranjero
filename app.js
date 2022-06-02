@@ -54,7 +54,8 @@ async function pull (){
 
     container.innerHTML = '';
 
-    sources.forEach(source => pullCOP(source))
+    const promises = sources.map(source => pullCOP(source))
+    await Promise.all(promises)
 
     document.body.classList.remove('loading')
 }

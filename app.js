@@ -45,6 +45,8 @@ window.addEventListener("load", ()=>{
     reloadBtn.addEventListener('click', pull)
     container = document.querySelector('.sources-container')
     template = document.querySelector('.conversion-source-cell')
+    container.innerHTML = '';
+    sources.map(source => createSourceCell(source));
     pull();
 });
 
@@ -52,17 +54,15 @@ window.addEventListener("load", ()=>{
 async function pull (){
     document.body.classList.add('loading')
 
-    container.innerHTML = '';
-
     const promises = sources.map(source => pullCOP(source))
     await Promise.all(promises)
 
     document.body.classList.remove('loading')
 }
 
-async function pullCOP (source){
+function createSourceCell (source){
 
-    // Grab Data From API
+    // Create source cell in HTML
 
     const element = template.cloneNode(true)
     container.appendChild(element);
@@ -70,14 +70,20 @@ async function pullCOP (source){
     const image = element.querySelector('img')
     image.setAttribute('src', `/images/${source.image}`);
 
+    source.price = element.querySelector('.current-cop-price')
+};
+
+async function pullCOP (source){
+
+    // Grab Data From API
+
     let rate = 0;
 
     if (source.url){
         rate = await fetch(source.url, source.fetchOptions)
         .then((response) => response.json())
         .then ((json) => source.getJsonRate(json));
-    } 
+    }
 
-    const price = element.querySelector('.current-cop-price')
-    price.innerHTML = `$ ${rate.toFixed(2)} COP`;
+    source.price.innerHTML = `$ ${rate.toFixed(2)} COP`;
 };
